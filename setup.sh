@@ -1,1 +1,0 @@
-export DATABASE_URL="postgresql://matiasmazparrotefeliu:francia1992@postgresql-matiasmazparrotefeliu.alwaysdata.net:5432/matiasmazparrotefeliu_etl_data_practise"
