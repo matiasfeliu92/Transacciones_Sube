@@ -1,0 +1,12 @@
+python-dotenv
+pandas
+requests
+psycopg2
+sqlalchemy
+beautifulsoup4
+gspread
+streamlit
+plotly
+matplotlib
+seaborn
+pymysql
