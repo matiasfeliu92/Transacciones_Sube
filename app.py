@@ -8,26 +8,29 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-database_url = st.secrets["DATABASE_URL"]
-engine = create_engine(database_url)
-
-query = """
-    SELECT table_name
-    FROM information_schema.tables
-    WHERE table_schema = 'public'
-"""
-
-df_tables = pd.read_sql(query, engine)
-df_tables = df_tables[df_tables['table_name'].str.contains('SUBE')]
-
-df_Transacciones_SUBE = pd.DataFrame()
-for table in df_tables['table_name']:
-    print(table)
-    df = pd.read_sql(f'SELECT * FROM "public"."{table}"', engine)
-    df_Transacciones_SUBE = pd.concat([df_Transacciones_SUBE, df], ignore_index=True)
-engine.dispose()
-
 st.set_page_config(layout="wide")
+with st.spinner('Loading dashboard, please wait...'):
+    database_url =  os.getenv('DATABASE_URL') or st.secrets["DATABASE_URL"]
+    engine = create_engine(database_url)
+
+    query = """
+        SELECT table_name
+        FROM information_schema.tables
+        WHERE table_schema = 'public'
+    """
+
+    df_tables = pd.read_sql(query, engine)
+    df_tables = df_tables[df_tables['table_name'].str.contains('SUBE')]
+
+    df_Transacciones_SUBE = pd.DataFrame()
+    for table in df_tables['table_name']:
+        print(table)
+        df = pd.read_sql(f'SELECT * FROM "public"."{table}"', engine)
+        df_Transacciones_SUBE = pd.concat([df_Transacciones_SUBE, df], ignore_index=True)
+    print('DATA CARGADA CORRECTAMENTE!')
+    engine.dispose()
+    
+st.spinner('')
 
 st.title('Reporte de transacciones de SUBE')
 
