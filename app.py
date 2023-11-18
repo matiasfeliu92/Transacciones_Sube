@@ -6,8 +6,17 @@ from etl.Transacciones_SUBE_etl import load_data
 
 st.set_page_config(layout="wide")
 
+archivos_en_carpeta = os.listdir('./CSV')
+df_Transacciones_SUBE = pd.DataFrame()
+
 with st.spinner('Loading dashboard, please wait...'):
-    df_Transacciones_SUBE = load_data()
+    if not st.button('Update data'):
+        for file in archivos_en_carpeta:
+            if '.parquet' in file:
+                df = pd.read_parquet(f'./CSV/{file}')
+                df_Transacciones_SUBE = pd.concat([df_Transacciones_SUBE, df])
+    else:
+        df_Transacciones_SUBE = load_data()
     
 st.spinner('')
 

@@ -36,6 +36,7 @@ def load_data():
                     'DATO_PRELIMINAR': 'Dato Preliminar'
                 }, inplace=True)
                 anio = href[-8:-4]
+                df.to_parquet(f'./CSV/Transacciones_SUBE_{anio}.parquet ')
                 df_Transacciones_SUBE = pd.concat([df_Transacciones_SUBE, df], ignore_index=True)
     else:
         print("This page could not be accessed:", response.status_code)
